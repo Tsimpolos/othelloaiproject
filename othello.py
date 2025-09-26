@@ -135,8 +135,6 @@ def value(board, player, depth):
         return best_value
 
 
-
-
 def less(x, y):
     return x < y
 
@@ -147,31 +145,31 @@ def greater(x, y):
 
 def best_move(board, player, depth):
     """
-    :param board: A string
+    :param board: A seq of strings
     :param player: 'X' or 'O'
     :param depth: At least 1; greater depth is slower but smarter
     :return: The best move (index) for player
     """
-    # TODO You have to write this one
 
-    result = []
-    best_value = 0
-    test_board = board
-    for dep in range(depth):
-        best_play = 'pass'
-        for r,c in legal_moves(test_board, player):
-            move = (r,c)
-            v = value(successor(test_board, player, move), player, dep)
-            if v != best_value:
-                best_value = v
+    if player == 'X':
+        best_play=[]
+        best_value = -float('inf')
+        for move in legal_moves(board, player):
+            val = value(successor(board, player, move), opposite(player), depth-1)
+            if best_value < val:
+                best_value = val
                 best_play = move
-            test_board = successor(test_board, player, best_play)
-        result.append(best_play)
-    return result
+        return best_play
 
-
-
-    pass  # Start by removing this line, which is just here so that the code is valid Python
+    else:  # player O
+        best_play = []
+        best_value = float('inf')
+        for move in legal_moves(board, player):
+            val = value(successor(board, player, move), opposite(player), depth-1)
+            if best_value > val:
+                best_value = val
+                best_play = move
+        return best_play
 
 
 def print_board(board):
