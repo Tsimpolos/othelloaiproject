@@ -29,6 +29,7 @@ def flips(board, player, location):
         result.extend(f(*location, *d))
     return result
 
+#board[row][col]
 
 def successor(board, player, move):
     """
@@ -37,8 +38,15 @@ def successor(board, player, move):
     :param move: Either 'pass' or a pair (r, c) with 0 <= r < 8 and 0 <= c < 8
     :return: The board that would result if player played move
     """
-    # TODO You have to write this one
-    pass  # Start by removing this line, which is just here so that the code is valid Python
+    if move == 'pass':
+        return board
+    else:
+        result = []
+        row_to_change = board[move[0]]
+        row_to_change = row_to_change[:move[1]] + player + row_to_change[move[1] + 1:]
+        #board[move[0]] = row_to_change
+        return row_to_change
+
 
 
 def legal_moves(board, player):
@@ -73,7 +81,6 @@ def score(board):
     :return: The difference between the number of pieces 'X' has and the number 'O' has. This is therefore positive if
     'X' is winning, negative if 'O' is winning, and 0 if the score is tied.
     """
-    # TODO You have to write this one
     count_x = 0
     count_o = 0
     x = 'X'
@@ -87,7 +94,6 @@ def score(board):
                 elif here == o:
                     count_o+=1
     return count_x - count_o
-    pass  # Start by removing this line, which is just here so that the code is valid Python
 
 
 def opposite(player):
@@ -103,7 +109,7 @@ def value(board, player, depth):
     :param depth: At least 1; greater depth is slower but smarter
     :return: The value of board if it is player's turn
     """
-    # TODO You have to write this one
+
     pass  # Start by removing this line, which is just here so that the code is valid Python
 
 
