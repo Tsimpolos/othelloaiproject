@@ -114,29 +114,29 @@ def value(board, player, depth):
 
     #Returns value of total flips for your best move and then other players best move. Positive value is net gain for you: negative value is net loss for you
     #
-
-    best_value = 0
+    if player=='X':
+        best_value = -float('inf')
+    if  player == 'O':
+        best_value = float('inf')
+    if depth == 0:
+        return score(board)
     tot_value = 0
     test_board = board
-    for dep in range(depth):
-        best_play = 'pass'
-        tot_value = 0
-        for r, c in legal_moves(test_board, player):
-            move = (r, c)
-            test_board = successor(test_board, player, move)
-            vp = len(flips(test_board, player, move))
-            test_board = successor(board, opposite(player), move)
-            move2 = best_move(test_board, opposite(player),0)
-            vn = len(flips(test_board, opposite(player),move2))
-            tot_value = vp - vn
-            if tot_value > best_value:
-                best_value = tot_value
-                best_play = move
-        test_board = successor(test_board, player, best_play)
-    return best_value
+    best_play = 'pass'
+    tot_value = 0
+    for move in legal_moves(test_board, player):
+        r, c = move
+
+        test_board = successor(test_board, player, move)
+        vp = score(board) #maybe len(flips)
+        if best_value < vp and player=='X':
+            best_value = vp
+        if best_value > vp and player=='O':
+            best_value = vp
+        vn = value(successor(board, opposite(player), move), opposite(player), depth-1)
+    return vp - vn
 
 
-    pass  # Start by removing this line, which is just here so that the code is valid Python
 
 
 def less(x, y):
