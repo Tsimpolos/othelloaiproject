@@ -44,8 +44,14 @@ def successor(board, player, move):
         result = []
         row_to_change = board[move[0]]
         row_to_change = row_to_change[:move[1]] + player + row_to_change[move[1] + 1:]
-        #board[move[0]] = row_to_change
-        return row_to_change
+        for row,col in range (7+1):
+            if row not in flips(board,player,move):
+                result += board[row]
+            else:
+                row_to_change = board[row]
+                row_to_change = row_to_change[:col] + player + row_to_change[col + 1:]
+                result +=  row_to_change
+        return result
 
 
 
