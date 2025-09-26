@@ -40,18 +40,14 @@ def successor(board, player, move):
     """
     if move == 'pass':
         return board
-    else:
-        result = []
-        row_to_change = board[move[0]]
-        row_to_change = row_to_change[:move[1]] + player + row_to_change[move[1] + 1:]
-        for row,col in range (7+1):
-            if row not in flips(board,player,move):
-                result += board[row]
-            else:
-                row_to_change = board[row]
-                row_to_change = row_to_change[:col] + player + row_to_change[col + 1:]
-                result +=  row_to_change
-        return result
+
+    r, c = move
+    result = [list(row) for row in board] #tuple to list of list
+    result[r][c] = player
+    for row, col in flips(board, player, move):
+        result[row][col] = player
+
+    return tuple(map("".join, result)) #found that on stackoverflow and it seems to work
 
 
 
