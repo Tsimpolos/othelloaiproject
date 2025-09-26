@@ -111,30 +111,28 @@ def value(board, player, depth):
     :param depth: At least 1; greater depth is slower but smarter
     :return: The value of board if it is player's turn
     """
-
     #Returns value of total flips for your best move and then other players best move. Positive value is net gain for you: negative value is net loss for you
-    #
-    if player=='X':
-        best_value = -float('inf')
-    if  player == 'O':
-        best_value = float('inf')
+
     if depth == 0:
         return score(board)
-    tot_value = 0
-    test_board = board
-    best_play = 'pass'
-    tot_value = 0
-    for move in legal_moves(test_board, player):
-        r, c = move
 
-        test_board = successor(test_board, player, move)
-        vp = score(board) #maybe len(flips)
-        if best_value < vp and player=='X':
-            best_value = vp
-        if best_value > vp and player=='O':
-            best_value = vp
-        vn = value(successor(board, opposite(player), move), opposite(player), depth-1)
-    return vp - vn
+    if player=='X':
+        best_value = -float('inf')
+        for move in legal_moves(board, player):
+            test_board = successor(board, player, move)
+            val = value(test_board, opposite(player), depth - 1)
+            if best_value < val and player == 'X':
+                best_value = val
+        return best_value
+
+    else: #player O
+        best_value = float('inf')
+        for move in legal_moves(board, player):
+            test_board = successor(board, player, move)
+            val = value(test_board, opposite(player), depth - 1)
+            if best_value > val:
+                best_value = val
+        return best_value
 
 
 
