@@ -74,6 +74,19 @@ def score(board):
     'X' is winning, negative if 'O' is winning, and 0 if the score is tied.
     """
     # TODO You have to write this one
+    count_x = 0
+    count_o = 0
+    x = 'X'
+    o = 'O'
+    for r in range(8):
+        for c in range(8):
+            if board[r][c] != '.':
+                here = board[r][c]
+                if here == x:
+                    count_x+=1
+                elif here == o:
+                    count_o+=1
+    return count_x - count_o
     pass  # Start by removing this line, which is just here so that the code is valid Python
 
 
