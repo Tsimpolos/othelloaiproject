@@ -106,11 +106,35 @@ def opposite(player):
 
 def value(board, player, depth):
     """
-    :param board: A string
+    :param board: A sequence of strings
     :param player: 'X' or 'O'
     :param depth: At least 1; greater depth is slower but smarter
     :return: The value of board if it is player's turn
     """
+
+    #Returns value of total flips for your best move and then other players best move. Positive value is net gain for you: negative value is net loss for you
+    #
+
+    best_value = 0
+    tot_value = 0
+    test_board = board
+    for dep in range(depth):
+        best_play = 'pass'
+        tot_value = 0
+        for r, c in legal_moves(test_board, player):
+            move = (r, c)
+            test_board = successor(test_board, player, move)
+            vp = len(flips(test_board, player, move))
+            test_board = successor(board, opposite(player), move)
+            move2 = best_move(test_board, opposite(player),0)
+            vn = len(flips(test_board, opposite(player),move2))
+            tot_value = vp - vn
+            if tot_value > best_value:
+                best_value = tot_value
+                best_play = move
+        test_board = successor(test_board, player, best_play)
+    return best_value
+
 
     pass  # Start by removing this line, which is just here so that the code is valid Python
 
@@ -131,6 +155,24 @@ def best_move(board, player, depth):
     :return: The best move (index) for player
     """
     # TODO You have to write this one
+
+    result = []
+    best_value = 0
+    test_board = board
+    for dep in range(depth):
+        best_play = 'pass'
+        for r,c in legal_moves(test_board, player):
+            move = (r,c)
+            v = value(successor(test_board, player, move), player, dep)
+            if v != best_value:
+                best_value = v
+                best_play = move
+            test_board = successor(test_board, player, best_play)
+        result.append(best_play)
+    return result
+
+
+
     pass  # Start by removing this line, which is just here so that the code is valid Python
 
 
